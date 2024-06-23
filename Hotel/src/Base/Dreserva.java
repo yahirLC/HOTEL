@@ -3,7 +3,7 @@ package Base;
 
 public class Dreserva {
 
-    private int idReservacion;
+    private String idReservacion;
     private int idCliente;
     private int idCuarto;
     private int idTrabajador;
@@ -11,14 +11,14 @@ public class Dreserva {
     private String fecha_reservacion;
     private String fecha_ingreso;
     private String fecha_salida;
-    private Double costo_total;
+    private Float costo_total;
     private String estado;
     private String tipo;
 
     public Dreserva() {
     }
 
-    public Dreserva(int idReservacion, int idCliente, int idCuarto, int idTrabajador, String fecha_reservacion, String fecha_ingreso, String fecha_salida, Double costo_total, String estado, String tipo) {
+    public Dreserva(String idReservacion, int idCliente, int idCuarto, int idTrabajador, String fecha_reservacion, String fecha_ingreso, String fecha_salida, Float costo_total, String estado, String tipo) {
         this.idReservacion = idReservacion;
         this.idCliente = idCliente;
         this.idCuarto = idCuarto;
@@ -31,11 +31,11 @@ public class Dreserva {
         this.tipo = tipo;
     }
 
-    public int getIdReservacion() {
+    public String getIdReservacion() {
         return idReservacion;
     }
 
-    public void setIdReservacion(int idReservacion) {
+    public void setIdReservacion(String idReservacion) {
         this.idReservacion = idReservacion;
     }
 
@@ -79,11 +79,11 @@ public class Dreserva {
         this.fecha_salida = fecha_salida;
     }
 
-    public Double getCosto_total() {
+    public Float getCosto_total() {
         return costo_total;
     }
 
-    public void setCosto_total(Double costo_total) {
+    public void setCosto_total(Float costo_total) {
         this.costo_total = costo_total;
     }
 

@@ -4,23 +4,22 @@ public class Dpago {
 
     private int idPago;
     private String tipo;
-    private Double monto;
-    private Double iva;
+    private Float monto;
+    private Float iva;
     private int idReservacion;
     private String fecha_pago;
-    private String no_comprobante;
+
 
     public Dpago() {
     }
 
-    public Dpago(int idPago, String tipo, Double monto, Double iva, int idReservacion, String fecha_pago, String no_comprobante) {
+    public Dpago(int idPago, String tipo, Float monto, Float iva, int idReservacion, String fecha_pago) {
         this.idPago = idPago;
         this.tipo = tipo;
         this.monto = monto;
         this.iva = iva;
         this.idReservacion = idReservacion;
         this.fecha_pago = fecha_pago;
-        this.no_comprobante = no_comprobante;
     }
 
     public int getIdPago() {
@@ -39,19 +38,19 @@ public class Dpago {
         this.tipo = tipo;
     }
 
-    public Double getMonto() {
+    public Float getMonto() {
         return monto;
     }
 
-    public void setMonto(Double monto) {
+    public void setMonto(Float monto) {
         this.monto = monto;
     }
 
-    public Double getIva() {
+    public Float getIva() {
         return iva;
     }
 
-    public void setIva(Double iva) {
+    public void setIva(Float iva) {
         this.iva = iva;
     }
 
@@ -71,12 +70,7 @@ public class Dpago {
         this.fecha_pago = fecha_pago;
     }
 
-    public String getNo_comprobante() {
-        return no_comprobante;
-    }
 
-    public void setNo_comprobante(String no_comprobante) {
-        this.no_comprobante = no_comprobante;
-    }
+
 
 }

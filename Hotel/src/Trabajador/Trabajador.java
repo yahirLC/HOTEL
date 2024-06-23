@@ -2,6 +2,7 @@ package Trabajador;
 
 import Base.Dtrabajador;
 import Logico.Ltrabajador;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -57,7 +58,7 @@ public class Trabajador extends javax.swing.JFrame {
 
         jtfApellidoMaterno.setText("");
 
-        jcFechaNacimiento.setEnabled(false);
+        jdcFecha.setEnabled(false);
     }
 
     void encender() {
@@ -89,7 +90,7 @@ public class Trabajador extends javax.swing.JFrame {
         jtfTelefono.setText("");
         jtfCorreo.setText("");
 
-        jcFechaNacimiento.setEnabled(true);
+        jdcFecha.setEnabled(true);
     }
 
     void mostrar(String buscar) {
@@ -145,7 +146,8 @@ public class Trabajador extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jlRegistrostotalesCleitne = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jcFechaNacimiento = new com.toedter.calendar.JCalendar();
+        jtfFecha = new javax.swing.JTextField();
+        jdcFecha = new com.toedter.calendar.JDateChooser();
         jLabel15 = new javax.swing.JLabel();
         jtfIDPersona = new javax.swing.JTextField();
 
@@ -274,6 +276,7 @@ public class Trabajador extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblClientes.setEnabled(false);
         tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblClientesMouseClicked(evt);
@@ -338,8 +341,12 @@ public class Trabajador extends javax.swing.JFrame {
         jLabel17.setText("Correo");
         jPanel2.add(jLabel17);
         jLabel17.setBounds(100, 180, 110, 20);
-        jPanel2.add(jcFechaNacimiento);
-        jcFechaNacimiento.setBounds(10, 250, 191, 141);
+
+        jtfFecha.setEditable(false);
+        jPanel2.add(jtfFecha);
+        jtfFecha.setBounds(10, 250, 80, 22);
+        jPanel2.add(jdcFecha);
+        jdcFecha.setBounds(10, 250, 100, 22);
 
         getContentPane().add(jPanel2);
         jPanel2.setBounds(0, 0, 230, 480);
@@ -356,7 +363,7 @@ public class Trabajador extends javax.swing.JFrame {
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
 
-        String fecha = jcFechaNacimiento.getDate().toString();
+       // String fecha = jdcFecha.getDate().toString();
 
         jbGuardar.setText("Editar");
         encender();
@@ -369,6 +376,7 @@ public class Trabajador extends javax.swing.JFrame {
         jtfNombre.setText(tblClientes.getValueAt(fila, 1).toString());
         jtfApellidoPaterno.setText(tblClientes.getValueAt(fila, 2).toString());
         jtfApellidoMaterno.setText(tblClientes.getValueAt(fila, 3).toString());
+        this.jtfFecha.setText(tblClientes.getValueAt(fila, 4).toString());
         jtfTelefono.setText(tblClientes.getValueAt(fila, 5).toString());
         jtfCorreo.setText(tblClientes.getValueAt(fila, 6).toString());
 
@@ -413,7 +421,16 @@ public class Trabajador extends javax.swing.JFrame {
     }//GEN-LAST:event_jbNuevo1ActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-        String fechanacimiento = jcFechaNacimiento.getDate().toString();
+        String fechanacimiento;
+        
+        SimpleDateFormat ff = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            fechanacimiento = ff.format(jdcFecha.getCalendar().getTime());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Ingrese una fecha de nacimiento");
+            return;
+        }
 
         if (jtfNombre.getText().length() == 0) {
             JOptionPane.showMessageDialog(rootPane, "Debes ingresar un Nombre de trabajador ");
@@ -575,17 +592,16 @@ public class Trabajador extends javax.swing.JFrame {
     private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbNuevo1;
-    private javax.swing.JButton jbSalir;
-    private javax.swing.JButton jbSalir1;
     private javax.swing.JButton jbSalir2;
     private javax.swing.JComboBox<String> jcAcceso;
-    private com.toedter.calendar.JCalendar jcFechaNacimiento;
+    private com.toedter.calendar.JDateChooser jdcFecha;
     private javax.swing.JLabel jlRegistrostotalesCleitne;
     private javax.swing.JTextField jtfApellidoMaterno;
     private javax.swing.JTextField jtfApellidoPaterno;
     private javax.swing.JTextField jtfBuscar;
     private javax.swing.JTextField jtfContra;
     private javax.swing.JTextField jtfCorreo;
+    private javax.swing.JTextField jtfFecha;
     private javax.swing.JTextField jtfIDPersona;
     private javax.swing.JTextField jtfLogin;
     private javax.swing.JTextField jtfNombre;

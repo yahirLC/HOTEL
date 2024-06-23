@@ -73,7 +73,6 @@ public class Lcliente {
             pst.setString(4, dts.getFecha_nacimiento());
             pst.setString(5, dts.getTelefono());
             pst.setString(6, dts.getCorreo());
-            
 
             pst2.setString(1, dts.getNocliente());
 
@@ -92,13 +91,11 @@ public class Lcliente {
                 return false;
             }
 
-        }catch (SQLIntegrityConstraintViolationException e) {
+        } catch (SQLIntegrityConstraintViolationException e) {
 
             JOptionPane.showMessageDialog(null, "DATO REPETIDO EN LA BASE DE DATOS");
             return false;
-        } 
-        
-        catch (Exception e) {
+        } catch (Exception e) {
 
             JOptionPane.showMessageDialog(null, e);
             return false;
@@ -180,27 +177,24 @@ public class Lcliente {
             return false;
         }
     }
- public int reciente() {
-    int recienteCliente = 0;
-    String sSQL = "SELECT MAX(CodigoCliente) as reciente FROM hotel.cliente";
 
-    try {
-        Statement st = cn.createStatement();
-        ResultSet rs = st.executeQuery(sSQL);
+    public int reciente() {
+        int recienteCliente = 0;
+        String sSQL = "SELECT MAX(CodigoCliente) as reciente FROM hotel.cliente";
 
-        if (rs.next()) {
-            recienteCliente = rs.getInt("reciente");
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sSQL);
+
+            if (rs.next()) {
+                recienteCliente = rs.getInt("reciente");
+            }
+
+            return recienteCliente;
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, "No se pudo obtener el cliente más reciente");
+            return 0;
         }
-
-        return recienteCliente;
-    } catch (Exception e) {
-        JOptionPane.showConfirmDialog(null, "No se pudo obtener el cliente más reciente");
-        return 0;
     }
-}
- 
 
-
-
-    
 }

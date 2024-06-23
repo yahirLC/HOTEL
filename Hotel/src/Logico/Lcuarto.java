@@ -200,7 +200,7 @@ public class Lcuarto {
     }
 
     public boolean desocupar(Dcuarto dts) {
-        sSQL = "update cuarto set estado='Desocupar'"
+        sSQL = "update cuarto set estado='Disponible'"
                 + "where idCuarto=?";
         try {
 

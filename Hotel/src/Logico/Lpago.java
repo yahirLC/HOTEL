@@ -20,8 +20,8 @@ public class Lpago {
     public DefaultTableModel mostrar(String buscar) {
         DefaultTableModel modelo;
 
-        String[] titulos = {"IDPAGO", "TIPO", "MONTO", "IDRESERVACION", "F_PAGO", "NO_COMPROBANTE", "IVA"};
-        String[] registro = new String[7];
+        String[] titulos = {"IDPAGO", "TIPO", "MONTO", "IDRESERVACION", "F_PAGO", "IVA"};
+        String[] registro = new String[6];
 
         totalregistros = 0;
         modelo = new DefaultTableModel(null, titulos);
@@ -40,8 +40,7 @@ public class Lpago {
                 registro[2] = rs.getString("monto");//3
                 registro[3] = rs.getString("idReservacion");//4
                 registro[4] = rs.getString("fecha_pago");//5
-                registro[5] = rs.getString("no_comprobante");//6
-                registro[6] = rs.getString("iva");//7
+                registro[5] = rs.getString("iva");//7
 
                 totalregistros++;
 
@@ -52,7 +51,7 @@ public class Lpago {
             return modelo;
         } catch (SQLException e) {
 
-            JOptionPane.showConfirmDialog(null, "No se pudo mostrar los clientes");
+            JOptionPane.showConfirmDialog(null, "No se pudo mostrar los pagos");
             return null;
         }
 
@@ -60,7 +59,7 @@ public class Lpago {
 
     public boolean insertar(Dpago dts) {
 
-        sSQL = "insert into pago(idReservacion,tipo,monto,fecha_pago,no_comprobante,iva) values (?,?,?,?,?,?)";
+        sSQL = "insert into pago(idReservacion,tipo,monto,fecha_pago,iva) values (?,?,?,?,?)";
 
         try {
             PreparedStatement pst = cn.prepareStatement(sSQL);
@@ -69,8 +68,7 @@ public class Lpago {
             pst.setString(2, dts.getTipo());
             pst.setDouble(3, dts.getMonto());
             pst.setString(4, dts.getFecha_pago());
-            pst.setString(5, dts.getNo_comprobante());
-            pst.setDouble(6, dts.getIva());
+            pst.setDouble(5, dts.getIva());
 
             int n = pst.executeUpdate();
 
@@ -102,7 +100,6 @@ public class Lpago {
             pst.setDouble(3, dts.getMonto());
             pst.setInt(4, dts.getIdReservacion());
             pst.setString(5, dts.getFecha_pago());
-            pst.setString(6, dts.getNo_comprobante());
             pst.setDouble(6, dts.getIva());
             pst.setInt(7, dts.getIdPago());
 
@@ -189,4 +186,22 @@ public class Lpago {
 
     }
 
+     public int reciente() {
+        int recienteCliente = 0;
+        String sSQL = "SELECT MAX(idPago) as reciente FROM hotel.pago";
+
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sSQL);
+
+            if (rs.next()) {
+                recienteCliente = rs.getInt("reciente");
+            }
+
+            return recienteCliente;
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, "No se pudo obtener el cliente más reciente");
+            return 0;
+        }
+    }
 }

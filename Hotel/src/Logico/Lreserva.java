@@ -116,7 +116,7 @@ public class Lreserva {
             pst.setDouble(7, dts.getCosto_total());
             pst.setString(8, dts.getEstado());
             pst.setString(9, dts.getTipo());
-            pst.setInt(10, dts.getIdReservacion());
+            pst.setString(10, dts.getIdReservacion());
 
             int n = pst.executeUpdate();
 
@@ -137,13 +137,13 @@ public class Lreserva {
     }
 
     public boolean pagar(Dreserva dts) {
-        sSQL = "update reservacion set estado='Pagado'?"
+        sSQL = "update reservacion set estado='PAGADO'"
                 + "where idReservacion=?";
 
         try {
             PreparedStatement pst = cn.prepareStatement(sSQL);
 
-            pst.setInt(1, dts.getIdReservacion());
+            pst.setString(1, dts.getIdReservacion());
 
             int n = pst.executeUpdate();
             if (n != 0) {
@@ -167,8 +167,7 @@ public class Lreserva {
 
         try {
             PreparedStatement pst = cn.prepareStatement(sSQL);
-
-            pst.setInt(1, dts.getIdReservacion());
+            pst.setString(1, dts.getIdReservacion());
 
             int n = pst.executeUpdate();
 
