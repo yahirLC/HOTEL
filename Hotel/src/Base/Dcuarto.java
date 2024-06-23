@@ -7,12 +7,12 @@ public class Dcuarto {
     private String piso;
     private String descripcion;
     private String caracteristicas;
-    private Double precio_diario;
+    private Float precio_diario;
     private String estado;
     private String tipocuarto;
     private String nomimagen;
 
-    public Dcuarto(int idCuarto, String numero, String piso, String descripcion, String caracteristicas, Double precio_diario, String estado, String tipocuarto, String nomimagen) {
+    public Dcuarto(int idCuarto, String numero, String piso, String descripcion, String caracteristicas, Float precio_diario, String estado, String tipocuarto, String nomimagen) {
         this.idCuarto = idCuarto;
         this.numero = numero;
         this.piso = piso;
@@ -67,11 +67,11 @@ public class Dcuarto {
         this.caracteristicas = caracteristicas;
     }
 
-    public Double getPrecio_diario() {
+    public Float getPrecio_diario() {
         return precio_diario;
     }
 
-    public void setPrecio_diario(Double precio_diario) {
+    public void setPrecio_diario(Float precio_diario) {
         this.precio_diario = precio_diario;
     }
 

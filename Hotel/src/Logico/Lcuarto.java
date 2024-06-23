@@ -245,5 +245,25 @@ public class Lcuarto {
             return false;
         }
     }
+    
+    public float obtenerPrecioDiarioPorId(String idCuarto) {
+    float precioDiario = 0;
+    String sSQL = "SELECT precio_diario FROM hotel.cuarto WHERE numero = "+idCuarto+"";
+
+    try {
+        PreparedStatement pst = cn.prepareStatement(sSQL);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            precioDiario = rs.getFloat("precio_diario");
+            
+        }
+
+        return precioDiario;
+    } catch (Exception e) {
+        JOptionPane.showConfirmDialog(null, "No se pudo obtener el precio diario");
+        return 0;
+    }
+}
 
 }

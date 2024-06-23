@@ -6,7 +6,9 @@ import Logico.Lcuarto;
 import Logico.Lreserva;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -131,6 +133,15 @@ public class Reservacion extends javax.swing.JFrame {
             JOptionPane.showConfirmDialog(null, e);
         }
     }
+    
+    long calcularDiasEntre(String fechaInicio, String fechaFin) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        
+        LocalDate inicio = LocalDate.parse(fechaInicio, formatter);
+        LocalDate fin = LocalDate.parse(fechaFin, formatter);
+       
+        return ChronoUnit.DAYS.between(inicio, fin);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -198,6 +209,7 @@ public class Reservacion extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblReservaciones.setEnabled(false);
         tblReservaciones.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblReservacionesMouseClicked(evt);
@@ -553,9 +565,9 @@ public class Reservacion extends javax.swing.JFrame {
         int seleccionado = jcTipo.getSelectedIndex();
         dts.setTipo((String) jcTipo.getItemAt(seleccionado));
 
-        dts.setFecha_reservacion(this.jtfFechareserva.toString());
-        dts.setFecha_ingreso(this.jtfFechaentrada.toString());
-        dts.setFecha_salida(this.jtfFechasalida.toString());
+        dts.setFecha_reservacion(this.jtfFechareserva.getText().toString());
+        dts.setFecha_ingreso(this.jtfFechaentrada.getText().toString());
+        dts.setFecha_salida(this.jtfFechasalida.getText().toString());
 
         dts.setCosto_total(Double.parseDouble(jtfCosto.getText()));
 
@@ -680,6 +692,13 @@ public class Reservacion extends javax.swing.JFrame {
 
     private void jbCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCalcularActionPerformed
 
+        if (Reservacion.jtfCuarto.getText().isBlank()) {
+            JOptionPane.showMessageDialog(rootPane, "SELECCIONE UN CUARTO PRIMERO");
+            return;
+        }
+        
+        
+        
         SimpleDateFormat ff = new SimpleDateFormat("dd/MM/yyyy");
 
         this.jtfFechaentrada.setVisible(true);
@@ -705,10 +724,42 @@ public class Reservacion extends javax.swing.JFrame {
         this.jbCalcular.setEnabled(false);
         
         this.jbGuardar.setVisible(true);
+        
+        String fecha1 = this.jtfFechaentrada.getText();
+        String fecha2 = this.jtfFechasalida.getText();
+        
+        long dias;
+        try {
+            dias = calcularDiasEntre(fecha1, fecha2);
+            dias = dias+1;
+            //JOptionPane.showMessageDialog(rootPane, dias);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+            return;
+        }
+   
+        Lcuarto funcionx = new Lcuarto();
+        float preciodia = funcionx.obtenerPrecioDiarioPorId(Reservacion.jtfCuarto.getText().toString());
+        float total = preciodia * dias;
+        if (this.jcTipo.getSelectedItem().toString() == "RESERVA") {
+            
+            total = (total + (10*dias))-10;
+            
+        }
+        
+        
+        Float Total = total;
+        
+        jtfCosto.setText(Total.toString());
+        
+
+        
     }//GEN-LAST:event_jbCalcularActionPerformed
 
     private void jbCancelarCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarCalcularActionPerformed
 
+        this.jtfCosto.setText("");
+        
         jcTipo.setEnabled(true);
         this.jbCalcular.setEnabled(true);
         

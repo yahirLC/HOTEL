@@ -180,8 +180,7 @@ public class Lcliente {
             return false;
         }
     }
-
-  public int reciente() {
+ public int reciente() {
     int recienteCliente = 0;
     String sSQL = "SELECT MAX(CodigoCliente) as reciente FROM hotel.cliente";
 
@@ -199,5 +198,9 @@ public class Lcliente {
         return 0;
     }
 }
+ 
+
+
+
     
 }

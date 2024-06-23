@@ -320,6 +320,7 @@ public class Cuartos extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblCuartos.setEnabled(false);
         tblCuartos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblCuartosMouseClicked(evt);
@@ -484,7 +485,7 @@ public class Cuartos extends javax.swing.JFrame {
 
         dts.setDescripcion(jtaDescripcion.getText());
 
-        dts.setPrecio_diario(Double.parseDouble(jtfPrecioPorDia.getText()));
+        dts.setPrecio_diario(Float.parseFloat(jtfPrecioPorDia.getText()));
 
         if (opcion.equals("guardar")) {
             if (funcion.insertar(dts)) {
