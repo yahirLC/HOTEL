@@ -180,6 +180,9 @@ public class Clientes extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblClientesMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tblClientesMouseEntered(evt);
+            }
         });
         jScrollPane1.setViewportView(tblClientes);
 
@@ -509,6 +512,10 @@ public class Clientes extends javax.swing.JFrame {
     private void jtfIDClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfIDClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfIDClienteActionPerformed
+
+    private void tblClientesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblClientesMouseEntered
 
     /**
      * @param args the command line arguments

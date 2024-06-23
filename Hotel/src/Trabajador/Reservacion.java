@@ -4,6 +4,8 @@ import Base.Dcuarto;
 import Base.Dreserva;
 import Logico.Lcuarto;
 import Logico.Lreserva;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +16,8 @@ public class Reservacion extends javax.swing.JFrame {
         initComponents();
         mostrar("");
         apagar();
+        this.jbGuardar.setVisible(false);
+        this.jbPagar.setVisible(false);
     }
 
     private String opcion = "guardar";
@@ -40,6 +44,9 @@ public class Reservacion extends javax.swing.JFrame {
 
     void apagar() {
 
+        this.jbCancelarCalcular.setEnabled(false);
+        this.jbCalcular.setEnabled(false);
+
         jtfIDReserva.setVisible(false);
         jtfIDcuarto.setVisible(false);
         jtfIDcliente.setVisible(false);
@@ -47,10 +54,10 @@ public class Reservacion extends javax.swing.JFrame {
 
         jtfCuarto.setEnabled(false);
         jtfCliente.setEnabled(false);
-        jtfTrabajador.setEnabled(false);
+        jtfTrabajador.setEnabled(true);
 
         jcTipo.setEnabled(false);
-        jcEstado.setEnabled(false);
+        this.jtfEstado.setEnabled(false);
         jdFreserva.setEnabled(false);
         jdFingreso.setEnabled(false);
         jdFsalida.setEnabled(false);
@@ -58,7 +65,6 @@ public class Reservacion extends javax.swing.JFrame {
         jtfCosto.setEnabled(false);
 
         jbGuardar.setEnabled(false);
-        jbCancelar.setEnabled(false);
         jbEliminar.setEnabled(false);
         jbBuscarCuarto.setEnabled(false);
         jbBuscarCliente.setEnabled(false);
@@ -84,10 +90,9 @@ public class Reservacion extends javax.swing.JFrame {
 
         jtfCuarto.setEnabled(false);
         jtfCliente.setEnabled(false);
-        jtfTrabajador.setEnabled(false);
 
         jcTipo.setEnabled(true);
-        jcEstado.setEnabled(true);
+        this.jtfEstado.setEnabled(true);
         jdFreserva.setEnabled(true);
         jdFingreso.setEnabled(true);
         jdFsalida.setEnabled(true);
@@ -95,7 +100,7 @@ public class Reservacion extends javax.swing.JFrame {
         jtfCosto.setEnabled(true);
 
         jbGuardar.setEnabled(true);
-        jbCancelar.setEnabled(true);
+
         jbEliminar.setEnabled(true);
         jbBuscarCuarto.setEnabled(true);
         jbBuscarCliente.setEnabled(true);
@@ -147,34 +152,36 @@ public class Reservacion extends javax.swing.JFrame {
         jtfCliente = new javax.swing.JTextField();
         jtfIDcliente = new javax.swing.JTextField();
         jbGuardar = new javax.swing.JButton();
-        jbCancelar = new javax.swing.JButton();
         jlRegistrostotalesCleitne = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jtfTrabajador = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jcTipo = new javax.swing.JComboBox<>();
-        jdFreserva = new com.toedter.calendar.JDateChooser();
-        jdFingreso = new com.toedter.calendar.JDateChooser();
-        jdFsalida = new com.toedter.calendar.JDateChooser();
         jLabel12 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        jtfFechareserva = new javax.swing.JTextField();
+        jdFreserva = new com.toedter.calendar.JDateChooser();
+        jtfFechaentrada = new javax.swing.JTextField();
+        jdFingreso = new com.toedter.calendar.JDateChooser();
         jLabel15 = new javax.swing.JLabel();
         jtfIDtrabajador = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         jtfCosto = new javax.swing.JTextField();
-        jcEstado = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
         jbBuscarCuarto = new javax.swing.JButton();
         jbBuscarCliente = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jbPagar = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
-        jtfsalida = new javax.swing.JTextField();
-        jtfreserva = new javax.swing.JTextField();
-        jtfentrada = new javax.swing.JTextField();
+        jtfFechasalida = new javax.swing.JTextField();
+        jdFsalida = new com.toedter.calendar.JDateChooser();
+        jbCalcular = new javax.swing.JButton();
+        jbCancelarCalcular = new javax.swing.JButton();
+        jtfEstado = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(850, 511));
+        setPreferredSize(new java.awt.Dimension(850, 497));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(97, 167, 161));
@@ -243,7 +250,13 @@ public class Reservacion extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jtfCuarto);
-        jtfCuarto.setBounds(80, 320, 120, 22);
+        jtfCuarto.setBounds(100, 320, 120, 22);
+
+        jtfIDcuarto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfIDcuartoActionPerformed(evt);
+            }
+        });
         jPanel1.add(jtfIDcuarto);
         jtfIDcuarto.setBounds(230, 320, 80, 22);
 
@@ -259,7 +272,7 @@ public class Reservacion extends javax.swing.JFrame {
         jPanel1.add(jtfIDReserva);
         jtfIDReserva.setBounds(400, 20, 80, 22);
         jPanel1.add(jtfCliente);
-        jtfCliente.setBounds(80, 360, 120, 22);
+        jtfCliente.setBounds(100, 360, 120, 22);
         jPanel1.add(jtfIDcliente);
         jtfIDcliente.setBounds(230, 360, 80, 22);
 
@@ -270,16 +283,7 @@ public class Reservacion extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbGuardar);
-        jbGuardar.setBounds(590, 270, 80, 23);
-
-        jbCancelar.setText("Cancelar");
-        jbCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbCancelarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jbCancelar);
-        jbCancelar.setBounds(690, 270, 90, 23);
+        jbGuardar.setBounds(590, 290, 100, 23);
 
         jlRegistrostotalesCleitne.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
         jlRegistrostotalesCleitne.setText("Registros");
@@ -289,7 +293,7 @@ public class Reservacion extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
         jLabel9.setText("Estado");
         jPanel1.add(jLabel9);
-        jLabel9.setBounds(690, 230, 110, 20);
+        jLabel9.setBounds(750, 230, 110, 20);
 
         jButton1.setText("jButton1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -298,45 +302,64 @@ public class Reservacion extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton1);
-        jButton1.setBounds(270, 20, 20, 23);
+        jButton1.setBounds(270, 20, 40, 23);
 
+        jtfTrabajador.setEditable(false);
         jtfTrabajador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfTrabajadorActionPerformed(evt);
             }
         });
         jPanel1.add(jtfTrabajador);
-        jtfTrabajador.setBounds(80, 400, 120, 20);
+        jtfTrabajador.setBounds(100, 400, 120, 20);
 
         jLabel10.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
         jLabel10.setText("Trabajador");
         jPanel1.add(jLabel10);
-        jLabel10.setBounds(320, 400, 100, 20);
+        jLabel10.setBounds(20, 400, 100, 20);
 
-        jcTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "reserva", "alquiler" }));
+        jcTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RESERVA", "ALQUILER" }));
         jcTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcTipoActionPerformed(evt);
             }
         });
         jPanel1.add(jcTipo);
-        jcTipo.setBounds(590, 80, 80, 22);
-        jPanel1.add(jdFreserva);
-        jdFreserva.setBounds(720, 110, 20, 22);
-        jPanel1.add(jdFingreso);
-        jdFingreso.setBounds(720, 140, 20, 22);
-        jPanel1.add(jdFsalida);
-        jdFsalida.setBounds(720, 170, 20, 22);
+        jcTipo.setBounds(590, 80, 150, 22);
 
         jLabel12.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
         jLabel12.setText("Tipo");
         jPanel1.add(jLabel12);
-        jLabel12.setBounds(680, 80, 110, 20);
+        jLabel12.setBounds(750, 80, 90, 20);
 
         jLabel14.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
         jLabel14.setText("F. Reserva");
         jPanel1.add(jLabel14);
         jLabel14.setBounds(750, 110, 110, 20);
+
+        jtfFechareserva.setEditable(false);
+        jPanel1.add(jtfFechareserva);
+        jtfFechareserva.setBounds(590, 110, 130, 22);
+
+        jdFreserva.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jdFreservaMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jdFreserva);
+        jdFreserva.setBounds(590, 110, 150, 22);
+
+        jtfFechaentrada.setEditable(false);
+        jPanel1.add(jtfFechaentrada);
+        jtfFechaentrada.setBounds(590, 140, 130, 22);
+
+        jdFingreso.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jdFingresoMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jdFingreso);
+        jdFingreso.setBounds(590, 140, 150, 22);
 
         jLabel15.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
         jLabel15.setText("F. Entrada");
@@ -349,22 +372,15 @@ public class Reservacion extends javax.swing.JFrame {
         jLabel16.setText("F. Salida");
         jPanel1.add(jLabel16);
         jLabel16.setBounds(750, 170, 110, 20);
-        jPanel1.add(jtfCosto);
-        jtfCosto.setBounds(590, 200, 80, 22);
 
-        jcEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "alquiler", "pagado" }));
-        jcEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcEstadoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jcEstado);
-        jcEstado.setBounds(590, 230, 80, 22);
+        jtfCosto.setEditable(false);
+        jPanel1.add(jtfCosto);
+        jtfCosto.setBounds(590, 200, 150, 22);
 
         jLabel17.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
         jLabel17.setText("Costo");
         jPanel1.add(jLabel17);
-        jLabel17.setBounds(690, 200, 110, 20);
+        jLabel17.setBounds(750, 200, 110, 20);
 
         jbBuscarCuarto.setText("Buscar");
         jbBuscarCuarto.addActionListener(new java.awt.event.ActionListener() {
@@ -373,7 +389,7 @@ public class Reservacion extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbBuscarCuarto);
-        jbBuscarCuarto.setBounds(320, 320, 72, 23);
+        jbBuscarCuarto.setBounds(230, 320, 80, 23);
 
         jbBuscarCliente.setText("Buscar");
         jbBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -382,16 +398,16 @@ public class Reservacion extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbBuscarCliente);
-        jbBuscarCliente.setBounds(320, 360, 72, 23);
+        jbBuscarCliente.setBounds(230, 360, 80, 23);
 
-        jButton2.setText("Pagar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jbPagar.setText("Pagar");
+        jbPagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jbPagarActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2);
-        jButton2.setBounds(710, 370, 90, 40);
+        jPanel1.add(jbPagar);
+        jbPagar.setBounds(700, 290, 90, 23);
 
         jbSalir.setText("jButton1");
         jbSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -401,12 +417,34 @@ public class Reservacion extends javax.swing.JFrame {
         });
         jPanel1.add(jbSalir);
         jbSalir.setBounds(790, 20, 20, 20);
-        jPanel1.add(jtfsalida);
-        jtfsalida.setBounds(590, 170, 130, 22);
-        jPanel1.add(jtfreserva);
-        jtfreserva.setBounds(590, 110, 130, 22);
-        jPanel1.add(jtfentrada);
-        jtfentrada.setBounds(590, 140, 130, 22);
+
+        jtfFechasalida.setEditable(false);
+        jPanel1.add(jtfFechasalida);
+        jtfFechasalida.setBounds(590, 170, 130, 22);
+        jPanel1.add(jdFsalida);
+        jdFsalida.setBounds(590, 170, 150, 22);
+
+        jbCalcular.setText("Calcular");
+        jbCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCalcularActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jbCalcular);
+        jbCalcular.setBounds(590, 260, 100, 23);
+
+        jbCancelarCalcular.setText("Cancelar");
+        jbCancelarCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarCalcularActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jbCancelarCalcular);
+        jbCancelarCalcular.setBounds(700, 260, 90, 23);
+
+        jtfEstado.setEditable(false);
+        jPanel1.add(jtfEstado);
+        jtfEstado.setBounds(590, 230, 150, 22);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 850, 480);
@@ -432,7 +470,7 @@ public class Reservacion extends javax.swing.JFrame {
         jtfTrabajador.setText(tblReservaciones.getValueAt(fila, 6).toString());
 
         jtfCosto.setText(tblReservaciones.getValueAt(fila, 10).toString());
-        jcEstado.setSelectedItem(tblReservaciones.getValueAt(fila, 11).toString());
+        this.jtfEstado.setText(tblReservaciones.getValueAt(fila, 11).toString());
         jcTipo.setSelectedItem(tblReservaciones.getValueAt(fila, 12).toString());
 
 
@@ -461,12 +499,31 @@ public class Reservacion extends javax.swing.JFrame {
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
 
+        this.jbCalcular.setEnabled(true);
+        this.jtfFechaentrada.setVisible(true);
+        this.jtfFechasalida.setVisible(true);
+        SimpleDateFormat ff = new SimpleDateFormat("dd/MM/yyyy");
+
         encender();
+
+        this.jtfFechaentrada.setVisible(false);
+        //this.jtfFechareserva.setVisible(false);
+        this.jtfFechasalida.setVisible(false);
+
         jbGuardar.setText("Guardar");
         opcion = "guardar";
+
+        if ("RESERVA".equals(jcTipo.getSelectedItem().toString())) {
+            Date fechaHoy = new Date();
+            this.jdFreserva.setEnabled(false);
+            this.jtfFechareserva.setText(ff.format(fechaHoy));
+        }
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+
+        SimpleDateFormat ff = new SimpleDateFormat("dd/MM/yyyy");
+
 
         if (jtfIDcuarto.getText().length() == 0) {
             JOptionPane.showMessageDialog(rootPane, "No has seleccionado un Cuarto");
@@ -496,14 +553,13 @@ public class Reservacion extends javax.swing.JFrame {
         int seleccionado = jcTipo.getSelectedIndex();
         dts.setTipo((String) jcTipo.getItemAt(seleccionado));
 
-        dts.setFecha_reservacion(jdFreserva.getDateFormatString());
-        dts.setFecha_ingreso(jdFingreso.getDateFormatString());
-        dts.setFecha_salida(jdFsalida.getDateFormatString());
+        dts.setFecha_reservacion(this.jtfFechareserva.toString());
+        dts.setFecha_ingreso(this.jtfFechaentrada.toString());
+        dts.setFecha_salida(this.jtfFechasalida.toString());
 
         dts.setCosto_total(Double.parseDouble(jtfCosto.getText()));
 
-        seleccionado = jcEstado.getSelectedIndex();
-        dts.setEstado((String) jcEstado.getItemAt(seleccionado));
+        dts.setEstado(this.jtfEstado.getText());
 
         if (opcion.equals("guardar")) {
             if (funcion.insertar(dts)) {
@@ -530,20 +586,9 @@ public class Reservacion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbGuardarActionPerformed
 
-    private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-
-        mostrar("");
-        apagar();
-  
-    }//GEN-LAST:event_jbCancelarActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         mostrar(jtfBuscar.getText());
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jcEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jcEstadoActionPerformed
 
     private void jbBuscarCuartoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarCuartoActionPerformed
 
@@ -567,10 +612,40 @@ public class Reservacion extends javax.swing.JFrame {
     }//GEN-LAST:event_jtfCuartoActionPerformed
 
     private void jcTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcTipoActionPerformed
-        // TODO add your handling code here:
+
+        SimpleDateFormat ff = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaHoy = new Date();
+        
+        
+
+        if ("RESERVA".equals(jcTipo.getSelectedItem().toString())) {
+            this.jdFreserva.setEnabled(false);
+            this.jtfFechareserva.setText(ff.format(fechaHoy));
+            this.jtfFechaentrada.setText("");
+            this.jdFingreso.setEnabled(true);
+            this.jtfFechasalida.setText("");
+            this.jtfFechaentrada.setVisible(false);
+
+        } else {
+            if ("ALQUILER".equals(jcTipo.getSelectedItem().toString())) {
+                jdFreserva.setEnabled(false);
+                jtfFechareserva.setText("");
+
+                jdFingreso.setEnabled(false);
+
+                this.jtfFechaentrada.setVisible(true);
+                this.jtfFechaentrada.setText(ff.format(fechaHoy));
+                this.jtfFechareserva.setText("NO APLICA");
+                this.jtfFechasalida.setText("");
+
+            }
+
+        }
+
+
     }//GEN-LAST:event_jcTipoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jbPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPagarActionPerformed
 
         int fila = tblReservaciones.getSelectedRow();
 
@@ -584,12 +659,94 @@ public class Reservacion extends javax.swing.JFrame {
         pgg.setVisible(true);
 
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jbPagarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
 
         this.dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
+
+    private void jtfIDcuartoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfIDcuartoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfIDcuartoActionPerformed
+
+    private void jdFingresoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jdFingresoMouseClicked
+
+    }//GEN-LAST:event_jdFingresoMouseClicked
+
+    private void jdFreservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jdFreservaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jdFreservaMouseClicked
+
+    private void jbCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCalcularActionPerformed
+
+        SimpleDateFormat ff = new SimpleDateFormat("dd/MM/yyyy");
+
+        this.jtfFechaentrada.setVisible(true);
+        this.jtfFechasalida.setVisible(true);
+
+        try {
+
+            if (jdFingreso.isEnabled()) {
+                this.jtfFechaentrada.setText(ff.format(this.jdFingreso.getCalendar().getTime()));
+            }
+            this.jtfFechasalida.setText(ff.format(this.jdFsalida.getCalendar().getTime()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Ingrese fecha de entrada y salida");
+            return;
+        }
+
+        this.jdFingreso.setEnabled(false);
+        this.jdFsalida.setEnabled(false);
+
+        this.jbCancelarCalcular.setEnabled(true);
+        
+        jcTipo.setEnabled(false);
+        this.jbCalcular.setEnabled(false);
+        
+        this.jbGuardar.setVisible(true);
+    }//GEN-LAST:event_jbCalcularActionPerformed
+
+    private void jbCancelarCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarCalcularActionPerformed
+
+        jcTipo.setEnabled(true);
+        this.jbCalcular.setEnabled(true);
+        
+        SimpleDateFormat ff = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaHoy = new Date();
+        
+        
+
+        if ("RESERVA".equals(jcTipo.getSelectedItem().toString())) {
+            this.jdFreserva.setEnabled(false);
+            this.jtfFechareserva.setText(ff.format(fechaHoy));
+            this.jtfFechaentrada.setText("");
+            this.jdFingreso.setEnabled(true);
+            this.jtfFechasalida.setText("");
+            this.jtfFechaentrada.setVisible(false);
+
+        } else {
+            
+               jdFreserva.setEnabled(false);
+                jtfFechareserva.setText("");
+
+                jdFingreso.setEnabled(false);
+
+                this.jtfFechaentrada.setVisible(true);
+                this.jtfFechaentrada.setText(ff.format(fechaHoy));
+                this.jtfFechareserva.setText("NO APLICA");
+                this.jtfFechasalida.setText("");
+
+            
+
+        }
+        this.jtfFechasalida.setVisible(false);
+        this.jdFsalida.setEnabled(true);
+        this.jbCancelarCalcular.setEnabled(false);
+        
+        this.jbGuardar.setVisible(false);
+
+    }//GEN-LAST:event_jbCancelarCalcularActionPerformed
 
     /**
      * @param args the command line arguments
@@ -628,7 +785,6 @@ public class Reservacion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -644,12 +800,13 @@ public class Reservacion extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbBuscarCliente;
     private javax.swing.JButton jbBuscarCuarto;
-    private javax.swing.JButton jbCancelar;
+    private javax.swing.JButton jbCalcular;
+    private javax.swing.JButton jbCancelarCalcular;
     private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbNuevo;
+    private javax.swing.JButton jbPagar;
     private javax.swing.JButton jbSalir;
-    private javax.swing.JComboBox<String> jcEstado;
     private javax.swing.JComboBox<String> jcTipo;
     private com.toedter.calendar.JDateChooser jdFingreso;
     private com.toedter.calendar.JDateChooser jdFreserva;
@@ -659,14 +816,15 @@ public class Reservacion extends javax.swing.JFrame {
     public static javax.swing.JTextField jtfCliente;
     private javax.swing.JTextField jtfCosto;
     public static javax.swing.JTextField jtfCuarto;
+    private javax.swing.JTextField jtfEstado;
+    private javax.swing.JTextField jtfFechaentrada;
+    private javax.swing.JTextField jtfFechareserva;
+    private javax.swing.JTextField jtfFechasalida;
     private javax.swing.JTextField jtfIDReserva;
     public static javax.swing.JTextField jtfIDcliente;
     public static javax.swing.JTextField jtfIDcuarto;
     public static javax.swing.JTextField jtfIDtrabajador;
     public static javax.swing.JTextField jtfTrabajador;
-    private javax.swing.JTextField jtfentrada;
-    private javax.swing.JTextField jtfreserva;
-    private javax.swing.JTextField jtfsalida;
     private javax.swing.JTable tblReservaciones;
     // End of variables declaration//GEN-END:variables
 }
