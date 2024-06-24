@@ -58,6 +58,50 @@ public class Lcliente {
 
     }
 
+    
+     public DefaultTableModel mostrar(String buscar,int a) {
+         
+        a = 2;
+         
+        DefaultTableModel modelo;
+
+        String[] titulos = {"ID", "NOMBRE", "PATERNO", "MATERNO", "F_NACIMIENTO", "TELEFONO", "CORREO", "NO_CLIENTE"};
+        String[] registro = new String[8];
+        totalregistros = 0;
+        modelo = new DefaultTableModel(null, titulos);
+
+        sSQL = "select p.idPersona,p.nombre,p.a_paterno,p.a_materno,p.fecha_nacimiento,p.telefono,p.correo,c.CodigoCliente from persona p inner join cliente c on p.idPersona=c.idPersona WHERE (p.nombre LIKE '%" + buscar + "%' OR p.a_paterno LIKE '%" + buscar + "%' OR p.a_materno LIKE '%" + buscar + "%' OR p.fecha_nacimiento LIKE '%" + buscar + "%' OR p.telefono LIKE '%" + buscar + "%' OR p.correo LIKE '%" + buscar + "%') AND c.ClienteStatus = 1 order by idPersona desc";
+
+        try {
+
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sSQL);
+
+            while (rs.next()) {
+
+                registro[0] = rs.getString("idPersona");
+                registro[1] = rs.getString("nombre");
+                registro[2] = rs.getString("a_paterno");
+                registro[3] = rs.getString("a_materno");
+                registro[4] = rs.getString("fecha_nacimiento");
+                registro[5] = rs.getString("telefono");
+                registro[6] = rs.getString("correo");
+                registro[7] = rs.getString("CodigoCliente");
+
+                totalregistros++;
+
+                modelo.addRow(registro);
+
+            }
+
+            return modelo;
+        } catch (Exception e) {
+
+            JOptionPane.showConfirmDialog(null, "No se pudo mostrar los clientes");
+            return null;
+        }
+
+    }
     public boolean insertar(Dcliente dts) {
 
         sSQL = "insert into persona(nombre,a_paterno,a_materno,fecha_nacimiento,telefono,correo,personastatus) values (?,?,?,?,?,?,0)";
@@ -178,6 +222,27 @@ public class Lcliente {
         }
     }
 
+        public boolean restaurar(Dcliente dts) {
+    String sSQL = "update cliente set ClienteStatus = 0 where CodigoCliente=?";
+    try {
+        PreparedStatement pst = cn.prepareStatement(sSQL);
+        pst.setString(1, dts.getNocliente());
+        
+        int n = pst.executeUpdate();
+
+        if (n != 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e);
+        return false;
+    }
+}
+
+    
     public int reciente() {
         int recienteCliente = 0;
         String sSQL = "SELECT MAX(CodigoCliente) as reciente FROM hotel.cliente";

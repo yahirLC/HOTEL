@@ -6,6 +6,7 @@ import Base.Dreserva;
 import Logico.Lcuarto;
 import Logico.Lpago;
 import Logico.Lreserva;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,8 +14,7 @@ public class Pago extends javax.swing.JFrame {
 
     public Pago() {
         initComponents();
-
-        mostrar(idreserva);
+        mostrar();
         apagar();
         jtfIDReservapago.setText(idreserva);
         jtfCliente.setText(cliente);
@@ -22,25 +22,32 @@ public class Pago extends javax.swing.JFrame {
         jtfIDCuarto.setText(idcuarto);
         jtfTotalReserva.setText(Float.toString(totalreservacion));
         jtfIVA.setText(Float.toString((float) (totalreservacion * 0.16)));
-        jtfTotalPago.setText(Float.toString(totalreservacion + (float)(totalreservacion * 0.16)));
+        jtfTotalPago.setText(Float.toString(totalreservacion + (float) (totalreservacion * 0.16)));
         this.jbEliminar.setVisible(false);
-        
+
         Lpago funcionx = new Lpago();
         Integer reciente = funcionx.reciente();
-        reciente = reciente+1;
-        
+        reciente = reciente + 1;
+
         this.jtfIDPago.setText(reciente.toString());
+        this.jdFechaPago.setEnabled(false);
+        this.jcTipopago.setEnabled(false);
+        this.jToggleButton1.setVisible(false);
     }
 
     private String opcion = "guardar";
 
-    public static String idreserva;
-    public static String cliente;
-    public static String idcuarto;
-    public static String cuarto;
-    public static Float totalreservacion;
-    public static Float finalprecio;
-    public static Float ivavalor;
+    public static String idreserva = "";
+    public static String cliente = "";
+
+    public static String cuarto = "";
+    public static Float totalreservacion = (float) 0;
+    public static Float finalprecio = (float) 0;
+    public static Float ivavalor = (float) 0;
+
+    public static String nocuarto = "";
+    public static String idcuarto = "";
+    public static String nombrecliente = "";
 
     void ocultar() {
 
@@ -104,14 +111,30 @@ public class Pago extends javax.swing.JFrame {
     }
 
     void mostrar(String buscar) {
-
         try {
             DefaultTableModel modelo;
             Lpago funcion = new Lpago();
             modelo = funcion.mostrar(buscar);
 
             tblPagos.setModel(modelo);
-            ocultar();
+            //ocultar();
+            //aqui paso el Int a String para mostrarlo
+            jlRegistrostotalesCleitne.setText("Registros totales: " + Integer.toString(funcion.totalregistros));
+
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, e);
+        }
+    }
+
+    void mostrar() {
+        this.jbCancelar.setVisible(false);
+        try {
+            DefaultTableModel modelo;
+            Lpago funcion = new Lpago();
+            modelo = funcion.mostrar();
+
+            tblPagos.setModel(modelo);
+            //ocultar();
             //aqui paso el Int a String para mostrarlo
             jlRegistrostotalesCleitne.setText("Registros totales: " + Integer.toString(funcion.totalregistros));
 
@@ -142,7 +165,6 @@ public class Pago extends javax.swing.JFrame {
         jbGuardar = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
         jlRegistrostotalesCleitne = new javax.swing.JLabel();
-        jdFechaPago = new com.toedter.calendar.JDateChooser();
         jtfIDCuarto = new javax.swing.JTextField();
         jtfIVA = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -150,8 +172,11 @@ public class Pago extends javax.swing.JFrame {
         jcTipopago = new javax.swing.JComboBox<>();
         jToggleButton1 = new javax.swing.JToggleButton();
         jtffecha = new javax.swing.JTextField();
+        jdFechaPago = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -170,6 +195,7 @@ public class Pago extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblPagos.setEnabled(false);
         tblPagos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblPagosMouseClicked(evt);
@@ -222,12 +248,12 @@ public class Pago extends javax.swing.JFrame {
 
         jtfCuarto.setEditable(false);
         jPanel1.add(jtfCuarto);
-        jtfCuarto.setBounds(740, 150, 90, 22);
+        jtfCuarto.setBounds(740, 120, 90, 22);
 
         jLabel6.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
         jLabel6.setText("Pago Reserva");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(590, 120, 110, 20);
+        jLabel6.setBounds(590, 150, 110, 20);
 
         jLabel3.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
         jLabel3.setText("FECHA PAGO:");
@@ -241,12 +267,12 @@ public class Pago extends javax.swing.JFrame {
 
         jtfTotalReserva.setEditable(false);
         jPanel1.add(jtfTotalReserva);
-        jtfTotalReserva.setBounds(740, 120, 90, 22);
+        jtfTotalReserva.setBounds(740, 150, 90, 22);
 
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
         jLabel8.setText("Cuarto");
         jPanel1.add(jLabel8);
-        jLabel8.setBounds(590, 150, 80, 20);
+        jLabel8.setBounds(590, 120, 80, 20);
 
         jbGuardar.setText("Guardar");
         jbGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -270,12 +296,10 @@ public class Pago extends javax.swing.JFrame {
         jlRegistrostotalesCleitne.setText("Registros");
         jPanel1.add(jlRegistrostotalesCleitne);
         jlRegistrostotalesCleitne.setBounds(570, 430, 150, 20);
-        jPanel1.add(jdFechaPago);
-        jdFechaPago.setBounds(690, 240, 140, 22);
 
         jtfIDCuarto.setEditable(false);
         jPanel1.add(jtfIDCuarto);
-        jtfIDCuarto.setBounds(650, 150, 80, 22);
+        jtfIDCuarto.setBounds(650, 120, 80, 22);
 
         jtfIVA.setEditable(false);
         jPanel1.add(jtfIVA);
@@ -311,6 +335,8 @@ public class Pago extends javax.swing.JFrame {
         jtffecha.setEditable(false);
         jPanel1.add(jtffecha);
         jtffecha.setBounds(690, 240, 120, 20);
+        jPanel1.add(jdFechaPago);
+        jdFechaPago.setBounds(690, 240, 140, 22);
 
         jLabel10.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
         jLabel10.setText("TOTAL PAGO:");
@@ -319,9 +345,24 @@ public class Pago extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("PAGOS");
+        jLabel1.setText("POR CLIENTE");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(10, 20, 100, 16);
+        jLabel1.setBounds(80, 20, 190, 16);
+
+        jButton1.setText("Salir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1);
+        jButton1.setBounds(750, 420, 75, 23);
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("PAGOS");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(10, 20, 190, 16);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -349,8 +390,10 @@ public class Pago extends javax.swing.JFrame {
 
     private void tblPagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPagosMouseClicked
 
+        Lpago funcion = new Lpago();
         
-
+        jToggleButton1.setVisible(true);
+        
         jbGuardar.setText("Editar");
         encender();
         jbEliminar.setEnabled(true);
@@ -361,11 +404,22 @@ public class Pago extends javax.swing.JFrame {
         jtfIDPago.setText(tblPagos.getValueAt(fila, 0).toString());
         jtffecha.setText(tblPagos.getValueAt(fila, 4).toString());
         jcTipopago.setSelectedItem(tblPagos.getValueAt(fila, 1).toString());
-        jtfTotalPago.setText(tblPagos.getValueAt(fila, 2).toString());
+        jtfTotalPago.setText(tblPagos.getValueAt(fila, 6).toString());
 
         jtfIVA.setText(tblPagos.getValueAt(fila, 5).toString());
-        
+
         this.jbGuardar.setVisible(false);
+
+        ///////////////////////////////////////////////////////
+        jtfIDReservapago.setText(tblPagos.getValueAt(fila, 3).toString());
+        funcion.Restantes(jtfIDReservapago.getText().toString());
+        jtfTotalReserva.setText(tblPagos.getValueAt(fila, 2).toString());
+
+        jtfCliente.setText(Pago.nombrecliente);
+        jtfIDCuarto.setText(Pago.idcuarto);
+        jtfCuarto.setText(Pago.nocuarto);
+
+
     }//GEN-LAST:event_tblPagosMouseClicked
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
@@ -387,15 +441,18 @@ public class Pago extends javax.swing.JFrame {
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
-
+        jToggleButton1.setVisible(false);
         encender();
         jbGuardar.setText("PAGAR");
         opcion = "PAGAR";
         this.jbGuardar.setVisible(true);
+        this.jdFechaPago.setEnabled(true);
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
 
+      
+        
         if (jtfIDPago.getText().length() == 0) {
             JOptionPane.showMessageDialog(rootPane, "Para confirmar identidad, ingresar por favor un numero de telefono");
             jtfIDPago.requestFocus();
@@ -408,9 +465,19 @@ public class Pago extends javax.swing.JFrame {
         dts.setIdReservacion(Integer.parseInt(jtfIDReservapago.getText()));
         int seleccionado = jcTipopago.getSelectedIndex();
         dts.setTipo((String) jcTipopago.getItemAt(seleccionado));
+        dts.setTotal(Float.parseFloat(jtfTotalPago.getText()));
         dts.setIva(Float.parseFloat(jtfIVA.getText()));
 
-        dts.setFecha_pago(jdFechaPago.getDateFormatString());
+        SimpleDateFormat ff = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            this.jtffecha.setText(ff.format(jdFechaPago.getCalendar().getTime()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Ingrese una fecha de pago");
+            return;
+        }
+
+        dts.setFecha_pago(jtffecha.getText().toString());
         dts.setMonto(Float.parseFloat(jtfTotalReserva.getText()));
 
         if (opcion.equals("PAGAR")) {
@@ -429,10 +496,10 @@ public class Pago extends javax.swing.JFrame {
                 Dreserva d3 = new Dreserva();
 
                 JOptionPane.showMessageDialog(rootPane, jtfIDReservapago.getText().toString());
-                
+
                 d3.setIdReservacion(jtfIDReservapago.getText().toString());
                 f3.pagar(d3);
-
+  this.jToggleButton1.setVisible(true);
             }
         } else if (opcion.equals("editar")) {
 
@@ -445,6 +512,8 @@ public class Pago extends javax.swing.JFrame {
             }
 
         }
+        
+        this.jbGuardar.setVisible(false);
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
@@ -462,27 +531,29 @@ public class Pago extends javax.swing.JFrame {
     }//GEN-LAST:event_jcTipopagoActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        
+
         Ticket tk = new Ticket();
         tk.setVisible(true);
+
+        Ticket.jlNoComprobante.setText(jtfIDPago.getText().toString());
         
         Ticket.jlIDreserva.setText(jtfIDReservapago.getText());
         Ticket.jlCLiente.setText(jtfCliente.getText());
-        
-        Ticket.jlFechareserva.setText(jtfIDReservapago.getText());//modificar
-        
-        Ticket.jlIDcuarto.setText(jtfIDCuarto.getText());
-        Ticket.jlNoCuarto.setText(jtfCuarto.getText());
-        
 
-        
+        Ticket.jlFechareserva.setText(jtffecha.getText());//modificar
+
+        Ticket.jlIDcuarto.setText(jtfCuarto.getText());
 
         Ticket.jlMonto.setText(jtfTotalReserva.getText());
         Ticket.jlIVA.setText(jtfIVA.getText());
         Ticket.jltotal.setText(jtfTotalPago.getText());
-        
-        
+
+
     }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
 
@@ -494,8 +565,10 @@ public class Pago extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton1;
+    public static javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -508,7 +581,7 @@ public class Pago extends javax.swing.JFrame {
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbGuardar;
-    private javax.swing.JButton jbNuevo;
+    public static javax.swing.JButton jbNuevo;
     private javax.swing.JComboBox<String> jcTipopago;
     private com.toedter.calendar.JDateChooser jdFechaPago;
     private javax.swing.JLabel jlRegistrostotalesCleitne;

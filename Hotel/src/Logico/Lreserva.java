@@ -24,12 +24,12 @@ public class Lreserva {
         modelo = new DefaultTableModel(null, titulos);
 
         sSQL = "select r.idReservacion,r.idCuarto,c.numero,r.idCliente,"
-                + "(select nombre from persona where idPersona=r.idCliente)as clientenombre,"
-                + "(select a_paterno from persona where idPersona=r.idCliente)as clientepaterno,"
+                + "(select nombre from persona where idPersona=cl.idPersona)as clientenombre,"
+                + "(select a_paterno from persona where idPersona=cl.idPersona)as clientepaterno,"
                 + "r.idTrabajador,"
                 + "(select nombre from persona where idPersona=r.idTrabajador)as trabajadornombre,"
                 + "(select a_paterno from persona where idPersona=r.idTrabajador)as trabajadorpaterno,"
-                + "r.fecha_reservacion, r.fecha_ingreso, r.fecha_salida, r.costo_total, r.estado,r.tipo from reservacion r inner join cuarto c on r.idCuarto=c.idCuarto where r.fecha_reservacion like '%" + buscar + "%' order by idReservacion desc";
+                + "r.fecha_reservacion, r.fecha_ingreso, r.fecha_salida, r.costo_total, r.estado,r.tipo from reservacion r inner join cuarto c on r.idCuarto=c.idCuarto inner  join cliente cl on r.idCliente = cl.CodigoCliente where r.fecha_reservacion like '%" + buscar + "%' order by idReservacion desc";
 
         try {
 
@@ -179,8 +179,9 @@ public class Lreserva {
             }
 
         } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "NO ES POSIBLE ELIMINAR\n"
+                    + "ESTA RESERVACION YA HA SIDO PAGADA "
+                    + "Y PERTENECE AL HISTORIAL");
             return false;
         }
     }

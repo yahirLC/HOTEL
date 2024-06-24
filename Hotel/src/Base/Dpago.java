@@ -5,21 +5,22 @@ public class Dpago {
     private int idPago;
     private String tipo;
     private Float monto;
-    private Float iva;
     private int idReservacion;
     private String fecha_pago;
-
+    private Float iva;
+    private Float total;
 
     public Dpago() {
     }
 
-    public Dpago(int idPago, String tipo, Float monto, Float iva, int idReservacion, String fecha_pago) {
+    public Dpago(int idPago, String tipo, Float monto, Float iva, int idReservacion, String fecha_pago, Float total) {
         this.idPago = idPago;
         this.tipo = tipo;
         this.monto = monto;
-        this.iva = iva;
         this.idReservacion = idReservacion;
         this.fecha_pago = fecha_pago;
+        this.iva = iva;
+        this.total = total;
     }
 
     public int getIdPago() {
@@ -70,7 +71,14 @@ public class Dpago {
         this.fecha_pago = fecha_pago;
     }
 
+    public Float getTotal() {
+        return total;
+    }
 
+    public void setTotal(Float total) {
+        this.total = total;
+    }
 
-
+    
+    
 }

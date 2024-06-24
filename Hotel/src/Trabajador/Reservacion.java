@@ -191,7 +191,7 @@ public class Reservacion extends javax.swing.JFrame {
         jtfEstado = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(850, 496));
+        setPreferredSize(new java.awt.Dimension(850, 497));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -286,8 +286,14 @@ public class Reservacion extends javax.swing.JFrame {
         jtfIDReserva.setBounds(400, 20, 80, 22);
         jPanel1.add(jtfCliente);
         jtfCliente.setBounds(100, 360, 120, 22);
+
+        jtfIDcliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfIDclienteActionPerformed(evt);
+            }
+        });
         jPanel1.add(jtfIDcliente);
-        jtfIDcliente.setBounds(230, 360, 80, 22);
+        jtfIDcliente.setBounds(230, 350, 80, 22);
 
         jbGuardar.setText("Guardar");
         jbGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -468,7 +474,7 @@ public class Reservacion extends javax.swing.JFrame {
     private void tblReservacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblReservacionesMouseClicked
 
         this.jbGuardar.setVisible(false);
-        
+
         if (jcTipo.getSelectedItem().toString() == "RESERVA") {
 
         }
@@ -487,10 +493,10 @@ public class Reservacion extends javax.swing.JFrame {
         jtfCliente.setText(tblReservaciones.getValueAt(fila, 4).toString());
         jtfIDtrabajador.setText(tblReservaciones.getValueAt(fila, 5).toString());
         jtfTrabajador.setText(tblReservaciones.getValueAt(fila, 6).toString());
-        
+
         jtfFechaentrada.setText(tblReservaciones.getValueAt(fila, 8).toString());
         jtfFechasalida.setText(tblReservaciones.getValueAt(fila, 9).toString());
-        
+
         jtfCosto.setText(tblReservaciones.getValueAt(fila, 10).toString());
         this.jtfEstado.setText(tblReservaciones.getValueAt(fila, 11).toString());
         jcTipo.setSelectedItem(tblReservaciones.getValueAt(fila, 12).toString());
@@ -668,7 +674,9 @@ public class Reservacion extends javax.swing.JFrame {
     private void jbPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPagarActionPerformed
 
         int fila = tblReservaciones.getSelectedRow();
+        if (tblReservaciones.getValueAt(fila, 3).toString() == "PAGADO") {
 
+        }
         Pago.idreserva = tblReservaciones.getValueAt(fila, 0).toString();
         Pago.cliente = tblReservaciones.getValueAt(fila, 4).toString();
         Pago.totalreservacion = Float.parseFloat(tblReservaciones.getValueAt(fila, 10).toString());
@@ -676,6 +684,7 @@ public class Reservacion extends javax.swing.JFrame {
         Pago.cuarto = tblReservaciones.getValueAt(fila, 2).toString();
 
         Pago pgg = new Pago();
+        pgg.mostrar(Pago.idreserva);
         pgg.setVisible(true);
 
 
@@ -798,6 +807,10 @@ public class Reservacion extends javax.swing.JFrame {
         this.jbGuardar.setVisible(false);
 
     }//GEN-LAST:event_jbCancelarCalcularActionPerformed
+
+    private void jtfIDclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfIDclienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfIDclienteActionPerformed
 
     /**
      * @param args the command line arguments

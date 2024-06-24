@@ -27,9 +27,12 @@ public class Menu extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jbEliminados = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(282, 297));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jbCuartos.setText("Cuartos");
@@ -52,7 +55,7 @@ public class Menu extends javax.swing.JFrame {
 
         jlIDPersona.setText("jlIDPersona");
         getContentPane().add(jlIDPersona);
-        jlIDPersona.setBounds(90, 20, 60, 16);
+        jlIDPersona.setBounds(90, 20, 59, 16);
 
         jlNombre.setText("jlNombre");
         getContentPane().add(jlNombre);
@@ -95,7 +98,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton5);
-        jButton5.setBounds(170, 210, 72, 23);
+        jButton5.setBounds(170, 230, 72, 23);
 
         jLabel1.setText("Rango:");
         getContentPane().add(jLabel1);
@@ -116,6 +119,24 @@ public class Menu extends javax.swing.JFrame {
         jLabel6.setText("Funcion de Admin");
         getContentPane().add(jLabel6);
         jLabel6.setBounds(20, 120, 110, 16);
+
+        jButton1.setText("Pagos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(140, 200, 110, 23);
+
+        jbEliminados.setText("Eliminados");
+        jbEliminados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEliminadosActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jbEliminados);
+        jbEliminados.setBounds(20, 200, 110, 23);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -157,6 +178,19 @@ public class Menu extends javax.swing.JFrame {
         cb.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jbEliminadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminadosActionPerformed
+        ClientesEliminados ce = new ClientesEliminados();
+        ce.setVisible(true);
+    }//GEN-LAST:event_jbEliminadosActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Pago pg = new Pago();
+        pg.setVisible(true);
+        
+        Pago.jLabel1.setText("");
+        Pago.jbNuevo.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -193,6 +227,7 @@ public class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -201,6 +236,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     public static javax.swing.JButton jbClientes;
     public static javax.swing.JButton jbCuartos;
+    public static javax.swing.JButton jbEliminados;
     public static javax.swing.JButton jbReservacion;
     public static javax.swing.JButton jbTrabajadores;
     public static javax.swing.JLabel jlAcceso;

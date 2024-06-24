@@ -185,7 +185,7 @@ public class Login extends javax.swing.JFrame {
                 if (Menu.jlAcceso.getText().equals("Admin")) {
 
                 }else{
-                    
+                    Menu.jbEliminados.setEnabled(false);
                     Menu.jbTrabajadores.setEnabled(false);
                     Menu.jbCuartos.setEnabled(false);
                     

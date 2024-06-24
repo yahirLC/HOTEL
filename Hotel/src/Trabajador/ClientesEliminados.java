@@ -1,5 +1,6 @@
 package Trabajador;
 
+import Base.Dcliente;
 import Logico.Lcliente;
 import Logico.Lcuarto;
 import javax.swing.JOptionPane;
@@ -9,15 +10,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author PC
  */
-public class ClientesBuscar extends javax.swing.JFrame {
+public class ClientesEliminados extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CuartosBuscar
-     */
-    public ClientesBuscar() {
+    int fila;
+    public ClientesEliminados() {
         initComponents();
         mostrar("");
         this.setLocationRelativeTo(null);
+        this.jButton2.setVisible(false);
     }
 
     void ocultar() {
@@ -32,7 +32,7 @@ public class ClientesBuscar extends javax.swing.JFrame {
         try {
             DefaultTableModel modelo;
             Lcliente funcion = new Lcliente();
-            modelo = funcion.mostrar(buscar);
+            modelo = funcion.mostrar(buscar,1);
 
             tblClientesb.setModel(modelo);
             ocultar();
@@ -54,6 +54,8 @@ public class ClientesBuscar extends javax.swing.JFrame {
         jtfBuscar = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jlbtitulo = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,7 +98,21 @@ public class ClientesBuscar extends javax.swing.JFrame {
         jLabel13.setText("Buscar:");
 
         jlbtitulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jlbtitulo.setText("CLIENTES");
+        jlbtitulo.setText("CLIENTES ELIMINADOS");
+
+        jButton1.setText("Regresar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Restaurar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,16 +126,24 @@ public class ClientesBuscar extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtfBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jlRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jlRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButton2)
+                                .addComponent(jtfBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jlbtitulo)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jlbtitulo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton1)))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -127,6 +151,8 @@ public class ClientesBuscar extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jtfBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jlRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
@@ -136,7 +162,8 @@ public class ClientesBuscar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblClientesbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesbMouseClicked
-
+ fila = tblClientesb.rowAtPoint(evt.getPoint());
+ this.jButton2.setVisible(true);
 
     }//GEN-LAST:event_tblClientesbMouseClicked
 
@@ -150,9 +177,10 @@ public class ClientesBuscar extends javax.swing.JFrame {
     }//GEN-LAST:event_jtfBuscarActionPerformed
 
     private void tblClientesbMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesbMousePressed
+        this.jButton2.setVisible(true);
         if (evt.getClickCount() == 2) {
-
-            int fila = tblClientesb.getSelectedRow();
+            
+            fila = tblClientesb.getSelectedRow();
             String cod;
             String valor;
 
@@ -164,6 +192,25 @@ public class ClientesBuscar extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_tblClientesbMousePressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+ if (!tblClientesb.getValueAt(fila, 6).toString().equals("")) {
+            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro de restaurar?", "Confirmar", 2);
+
+            if (confirmacion == 0) {
+                Lcliente funcion = new Lcliente();
+                Dcliente dts = new Dcliente();
+
+                dts.setNocliente(tblClientesb.getValueAt(fila, 7).toString());
+                funcion.restaurar(dts);
+                 mostrar("");
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,26 +229,30 @@ public class ClientesBuscar extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClientesBuscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientesEliminados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClientesBuscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientesEliminados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClientesBuscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientesEliminados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClientesBuscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientesEliminados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClientesBuscar().setVisible(true);
+                new ClientesEliminados().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlRegistros;
